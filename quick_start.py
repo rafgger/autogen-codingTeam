@@ -84,19 +84,29 @@ def run_demo():
     if check_api_key():
         print("Running full multi-agent example...")
         try:
-            exec(open("multi_agent_coding_example.py").read())
+            with open("multi_agent_coding_example.py", "r", encoding="utf-8") as f:
+                exec(f.read())
         except FileNotFoundError:
             print("❌ multi_agent_coding_example.py not found")
         except Exception as e:
             print(f"❌ Error running example: {e}")
             print("🎯 Running simple demo instead...")
-            exec(open("simple_demo.py").read())
+            try:
+                with open("simple_demo.py", "r", encoding="utf-8") as f:
+                    exec(f.read())
+            except Exception as demo_error:
+                print(f"❌ Error running simple demo: {demo_error}")
+                show_demo_description()
     else:
         print("Running simple demo (no API key required)...")
         try:
-            exec(open("simple_demo.py").read())
+            with open("simple_demo.py", "r", encoding="utf-8") as f:
+                exec(f.read())
         except FileNotFoundError:
             print("❌ simple_demo.py not found")
+        except Exception as e:
+            print(f"❌ Error running simple demo: {e}")
+            show_demo_description()
 
 def run_tests():
     """Run the test suite if pytest is available."""
@@ -138,14 +148,80 @@ def show_menu():
             run_tests()
         elif choice == "4":
             try:
-                exec(open("sample_output.py").read())
+                with open("sample_output.py", "r", encoding="utf-8") as f:
+                    exec(f.read())
             except FileNotFoundError:
                 print("❌ sample_output.py not found")
+            except Exception as e:
+                print(f"❌ Error running sample output: {e}")
+                show_sample_description()
         elif choice == "5":
             print("👋 Goodbye!")
             break
         else:
             print("❌ Invalid choice. Please select 1-5.")
+
+def show_demo_description():
+    """Show demo description when the actual demo can't run."""
+    print("\n🚀 AutoGen Multi-Agent Coding Demo")
+    print("=" * 50)
+    
+    print("👥 Agents Overview:")
+    print("🧠 CodeAssistant - Python code generator")
+    print("   - Generates clean, efficient Python code")
+    print("   - Follows PEP 8 style guidelines")
+    print("   - Includes proper error handling and type hints")
+    print()
+    
+    print("🧐 CriticAgent - Code reviewer") 
+    print("   - Reviews code for bugs and security issues")
+    print("   - Suggests improvements for code quality")
+    print("   - Ensures best practices adherence")
+    print()
+    
+    print("🧪 TestAgent - Test writer")
+    print("   - Writes comprehensive unit tests using pytest")
+    print("   - Creates test cases for normal and edge scenarios")
+    print("   - Ensures high test coverage")
+    print()
+    
+    print("🙋 UserProxyAgent - Workflow manager")
+    print("   - Initiates coding tasks")
+    print("   - Coordinates between agents")
+    print("   - Executes code when needed")
+    print()
+    
+    print("📝 Example Workflow:")
+    print("1. UserProxy presents a coding task")
+    print("2. CodeAssistant generates initial implementation")
+    print("3. CriticAgent reviews and suggests improvements")
+    print("4. CodeAssistant refines the code")
+    print("5. TestAgent writes comprehensive tests")
+    print("6. UserProxy validates the final solution")
+
+def show_sample_description():
+    """Show sample output description when the actual sample can't run."""
+    print("\n🏦 Sample BankAccount Implementation")
+    print("=" * 50)
+    
+    print("📋 What the agents would collaboratively produce:")
+    print()
+    print("🧠 CodeAssistant generated:")
+    print("   - Complete BankAccount class with proper structure")
+    print("   - Comprehensive error handling and validation")
+    print("   - Transaction logging with timestamps")
+    print()
+    
+    print("🧐 CriticAgent suggested improvements:")
+    print("   - Use Decimal for precise monetary calculations")
+    print("   - Add proper exception classes")
+    print("   - Include transaction rollback for failed transfers")
+    print()
+    
+    print("🧪 TestAgent created:")
+    print("   - 25+ comprehensive test cases")
+    print("   - Coverage for normal operations, edge cases, and errors")
+    print("   - Proper test fixtures and organization")
 
 def main():
     """Main function to run the quick start script."""

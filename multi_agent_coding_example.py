@@ -14,6 +14,10 @@ pip install pyautogen openai
 import autogen
 from typing import Dict, List, Optional
 import os
+# load getenv
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Configuration for the LLM
 config_list = [
